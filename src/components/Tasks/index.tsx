@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import TasksContext from "../../store/tasks-context";
+import ProgressBar from "../ProgressBar";
 import TaskGroup from "../TaskGroup";
 import styles from "./Tasks.module.css";
 
@@ -14,9 +15,12 @@ export default function Tasks() {
   return (
     <div className={styles["task-wrapper"]}>
       <p>Total: {progressTotal}</p>
-      {tasks.map((group) => (
-        <TaskGroup taskGroup={group} key={group.name} />
-      ))}
+      {<ProgressBar percentage={progressTotal} />}
+      <div>
+        {tasks.map((group) => (
+          <TaskGroup taskGroup={group} key={group.name} />
+        ))}
+      </div>
 
       {/*JSON.stringify(tasks)*/}
     </div>
