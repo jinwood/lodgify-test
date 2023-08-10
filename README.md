@@ -45,4 +45,5 @@ Given more time...
 - Whilst the app behaves ok on mobile, I would have liked to have made it more responsive.
 - I have not considered accessibility at all. I would have liked to have added aria attributes and made sure the app was keyboard navigable.
 - I added some basic animations, but they could be a little more polished.
+- The checkbox styling is incomplete. Ideally I'd want to use fully custom elements
 - As mentioned, the design is "mimicked" as the figma design is locked down so I can't extract exact values for fonts, spacing etc nor get the exact SVGs for icons
