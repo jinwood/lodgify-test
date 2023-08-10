@@ -10,7 +10,7 @@ export default function Tasks() {
   const { getTasks, tasks, progressTotal } = tasksCtx;
   useEffect(() => {
     getTasks();
-  }, []);
+  }, [getTasks]);
 
   return (
     <div className={styles["task-wrapper"]}>

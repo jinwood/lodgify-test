@@ -1,5 +1,5 @@
 import { taskApi } from "../data";
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useCallback, useState } from "react";
 
 interface TasksContextType {
   progressTotal: number;
@@ -35,7 +35,7 @@ export function TasksContextProvider({ children }: Props) {
   const [tasks, setTasks] = useState<Group[]>([]);
   const [progressTotal, setProgressTotal] = useState(0);
 
-  async function getTasks() {
+  const getTasks = useCallback(async () => {
     const rawTasks = await taskApi.getTasks();
 
     let totalValue = 0;
@@ -65,7 +65,7 @@ export function TasksContextProvider({ children }: Props) {
 
     setTasks(normalizedTasks);
     setProgressTotal(roundedTotal);
-  }
+  }, []);
 
   function setTaskState(groupName: string, task: Task) {
     const { description, checked, value } = task;
