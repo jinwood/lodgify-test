@@ -1,0 +1,12 @@
+.task {
+  display: flex;
+  flex-direction: row;
+  align-content: start;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.checkbox {
+  accent-color: #52b599;
+  color: white;
+}

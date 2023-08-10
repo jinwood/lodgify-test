@@ -24,6 +24,7 @@ export interface Task {
 export interface Group {
   name: string;
   tasks: Task[];
+  collapsed: boolean;
 }
 
 interface Props {
@@ -36,7 +37,6 @@ export function TasksContextProvider({ children }: Props) {
 
   async function getTasks() {
     const rawTasks = await taskApi.getTasks();
-    console.log("raw", rawTasks);
 
     let totalValue = 0;
     for (const group of rawTasks) {
@@ -50,6 +50,7 @@ export function TasksContextProvider({ children }: Props) {
     let roundedTotal = 0;
     const normalizedTasks = rawTasks.map((group: Group) => ({
       ...group,
+      collapsed: true,
       tasks: group.tasks.map((task) => {
         const roundedValue = Math.round(task.value * normalizationFactor);
         if (task.checked) {

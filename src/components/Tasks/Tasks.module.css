@@ -1,0 +1,10 @@
+.task-wrapper {
+  width: 50rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid grey;
+  border-radius: 5px;
+}

@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import TasksContext, { Task } from "../../store/tasks-context";
+import styles from "./TaskItem.module.css";
 
 interface Props {
   task: Task;
@@ -17,16 +18,15 @@ export default function TaskItem({ task, groupName }: Props) {
   };
 
   return (
-    <>
-      <p>
-        {task.description} -{" "}
-        <input
-          type="checkbox"
-          checked={task.checked}
-          onChange={handleCheckedChange}
-        />
-      </p>
-      <p>{task.value}</p>
-    </>
+    <div className={styles["task"]}>
+      <input
+        className={styles["checkbox"]}
+        type="checkbox"
+        checked={task.checked}
+        onChange={handleCheckedChange}
+      />
+
+      <p>{task.description}</p>
+    </div>
   );
 }
