@@ -25,6 +25,17 @@ I opted to use react context to manage the state of the app. This is because the
 
 I used css modules to style the app. I find this to be a good balance between the flexibility of css and the encapsulation of css-in-js. I also find it to be a good way to demonstrate my css skills.
 
+The components themselves are structured in a way that made sense to me.
+
+**TaskManager**
+This is the top level component. It is responsible for initiating the data fetching and rendering the ProgressBar and TaskGroup components. 
+
+**TaskGroup**
+This component renders each group of tasks. It is responsible for rendering the Task components and the group heading along with managing the toggle state. 
+
+**TaskItem**
+This component renders each individual task. It is responsible for rendering the task text, checkbox and managing the completion state. It has a click handler for toggling the completion state.
+
 ## Things I would have done differently
 
 Given more time...

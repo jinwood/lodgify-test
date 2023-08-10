@@ -2,9 +2,9 @@ import { useContext, useEffect } from "react";
 import TasksContext from "../../store/tasks-context";
 import ProgressBar from "../ProgressBar";
 import TaskGroup from "../TaskGroup";
-import styles from "./Tasks.module.css";
+import styles from "./TaskManager.module.css";
 
-export default function Tasks() {
+export default function TaskManager() {
   const tasksCtx = useContext(TasksContext);
 
   const { getTasks, tasks, progressTotal } = tasksCtx;
