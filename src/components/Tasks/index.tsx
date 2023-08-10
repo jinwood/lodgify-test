@@ -5,22 +5,19 @@ import TaskGroup from "../TaskGroup";
 export default function Tasks() {
   const tasksCtx = useContext(TasksContext);
 
-  const { getTasks, tasks, setTaskState } = tasksCtx;
+  const { getTasks, tasks, progressTotal } = tasksCtx;
   useEffect(() => {
     getTasks();
   }, []);
 
-  const setTask = () => {
-    setTaskState("Add name and surname", "General Info", true);
-  };
-
   return (
     <>
+      <p>Total: {progressTotal}</p>
       {tasks.map((group) => (
         <TaskGroup taskGroup={group} key={group.name} />
       ))}
 
-      <button onClick={setTask}>click</button>
+      {/*JSON.stringify(tasks)*/}
     </>
   );
 }

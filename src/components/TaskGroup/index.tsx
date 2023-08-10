@@ -8,9 +8,9 @@ interface Props {
 export default function TaskGroup({ taskGroup }: Props) {
   return (
     <div>
-      <p>{taskGroup.name}</p>
+      <h3>{taskGroup.name}</h3>
       {taskGroup.tasks.map((t) => (
-        <TaskItem task={t} key={t.description} />
+        <TaskItem task={t} key={t.description} groupName={taskGroup.name} />
       ))}
     </div>
   );

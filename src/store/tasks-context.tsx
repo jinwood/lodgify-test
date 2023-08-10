@@ -2,24 +2,18 @@ import { taskApi } from "../data";
 import { createContext, ReactNode, useState } from "react";
 
 interface TasksContextType {
+  progressTotal: number;
   tasks: Array<Group>;
   getTasks: () => Promise<void>;
-  setTaskState: (
-    taskDescription: string,
-    groupName: string,
-    checked: Boolean
-  ) => void;
+  setTaskState: (groupName: string, task: Task) => void;
 }
 
 const TasksContext = createContext<TasksContextType>({
+  progressTotal: 0,
   tasks: [],
   getTasks: async () => {},
   setTaskState: () => {},
 });
-
-export interface FindTask extends Task {
-  groupName: string;
-}
 
 export interface Task {
   description: string;
@@ -38,33 +32,87 @@ interface Props {
 
 export function TasksContextProvider({ children }: Props) {
   const [tasks, setTasks] = useState<Group[]>([]);
+  const [progressTotal, setProgressTotal] = useState(0);
 
   async function getTasks() {
-    const tasks = await taskApi.getTasks();
+    const rawTasks = await taskApi.getTasks();
+    console.log("raw", rawTasks);
 
-    setTasks(tasks);
-  }
-
-  function setTaskState(
-    taskDescription: string,
-    groupName: string,
-    checked: Boolean
-  ) {
-    console.log(tasks);
-    const group = tasks.find((g) => g.name === groupName);
-
-    if (!group) {
-      console.error("Group not found", groupName);
+    let totalValue = 0;
+    for (const group of rawTasks) {
+      for (const task of group.tasks) {
+        totalValue += task.value;
+      }
     }
 
-    const task = group?.tasks.find((t) => t.description === taskDescription);
-    console.log("found task", task);
+    const normalizationFactor = 100 / totalValue;
+
+    let roundedTotal = 0;
+    const normalizedTasks = rawTasks.map((group: Group) => ({
+      ...group,
+      tasks: group.tasks.map((task) => {
+        const roundedValue = Math.round(task.value * normalizationFactor);
+        if (task.checked) {
+          roundedTotal += roundedValue;
+        }
+        return {
+          ...task,
+          value: roundedValue,
+        };
+      }),
+    }));
+
+    console.log(`roundedTotal ${roundedTotal}`);
+
+    setTasks(normalizedTasks);
+    setProgressTotal(roundedTotal);
+  }
+
+  function setTaskState(groupName: string, task: Task) {
+    const { description, checked, value } = task;
+    const groupIndex = tasks.findIndex((g) => g.name === groupName);
+
+    if (groupIndex === -1) {
+      console.error("Group not found", groupName);
+      return;
+    }
+
+    const taskIndex = tasks[groupIndex].tasks.findIndex(
+      (t) => t.description === description
+    );
+
+    if (taskIndex === -1) {
+      console.error("Task not found", description);
+      return;
+    }
+
+    // create a deep copy of tasks array to avoid mutating the state directly
+    const updatedTasks = [...tasks];
+    updatedTasks[groupIndex] = {
+      ...updatedTasks[groupIndex],
+      tasks: [...updatedTasks[groupIndex].tasks],
+    };
+
+    const existingTask = updatedTasks[groupIndex].tasks[taskIndex];
+
+    updatedTasks[groupIndex].tasks[taskIndex] = {
+      ...existingTask,
+      checked,
+    };
+
+    setTasks(updatedTasks);
+    const newProgressTotal = checked
+      ? progressTotal + value
+      : progressTotal - value;
+
+    setProgressTotal(newProgressTotal);
   }
 
   const context = {
     tasks,
     getTasks,
     setTaskState,
+    progressTotal,
   };
 
   return (
