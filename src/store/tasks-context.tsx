@@ -63,8 +63,6 @@ export function TasksContextProvider({ children }: Props) {
       }),
     }));
 
-    console.log(`roundedTotal ${roundedTotal}`);
-
     setTasks(normalizedTasks);
     setProgressTotal(roundedTotal);
   }
