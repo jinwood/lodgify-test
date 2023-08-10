@@ -4,6 +4,8 @@
   justify-content: start;
   border: 1px solid rgb(230, 230, 230);
   margin: 0 1rem;
+
+  animation: fadeInFromTop 1s forwards;
 }
 
 .task-group:first-of-type {
@@ -66,4 +68,15 @@
 
 .clipboard--incomplete {
   height: 1rem;
+}
+
+@keyframes fadeInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

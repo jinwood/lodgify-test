@@ -14,7 +14,7 @@ export default function Tasks() {
 
   return (
     <div className={styles["task-wrapper"]}>
-      <p>Total: {progressTotal}</p>
+      <h4 className={styles["heading"]}>Lodgify Grouped Tasks</h4>
       {<ProgressBar percentage={progressTotal} />}
       <div>
         {tasks.map((group) => (
